@@ -1,8 +1,10 @@
 import React from 'react'
+import Header from './Header'
 const Home = () => {
   return (
     <div>
-      <div>This is sanyuan</div>
+        <Header/>
+      <div>This is ssr</div>
       <button onClick={() => {alert('666')}}>click</button>
     </div>
   )

@@ -6,7 +6,7 @@ module.exports = {
            exclude: /node_modules/,//不打包node_modules中的js文件
            options: {
                presets: ["@babel/preset-env","@babel/preset-react"],
-               plugins: ["@babel/plugin-transform-runtime"]
+               plugins: ["@babel/plugin-transform-runtime","@babel/plugin-proposal-class-properties"]
            }
        }]
     }
