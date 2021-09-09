@@ -6,7 +6,6 @@ import { Provider } from 'react-redux'
 import getStore from '../store'
 export default function (req,res){
     const store = getStore()
-    console.log('store',store.getState())
     const content = renderToString((
         <Provider store={store}>
            <StaticRouter location={req.path} context={{}}>
