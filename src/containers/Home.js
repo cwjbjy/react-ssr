@@ -1,12 +1,29 @@
 import React from 'react'
 import Header from './Header'
-const Home = () => {
-  return (
+import { connect } from 'react-redux'
+import * as count from '../store/action/count'
+
+const Home= (props) =>{
+    return (
     <div>
         <Header/>
-      <div>This is ssr</div>
-      <button onClick={() => {alert('666')}}>click</button>
-    </div>
-  )
+        <div>{props.count}</div>
+        <button onClick={()=>props.INCREMENT(1)}>+1</button>
+        <button onClick={()=>props.DECREMENT(1)}>-1</button>
+    </div>)
 }
-export default Home
+ 
+const mapStateToProps = state => {
+    return {
+        count:state.counter.count
+    }
+}
+
+const mapDispatchToProps = (dispatch)=>{
+    return{
+        INCREMENT:(value)=>{dispatch(count.INCREMENT(value))},
+        DECREMENT:(value)=>{dispatch(count.DECREMENT(value))}
+    }
+}
+ 
+export default connect(mapStateToProps,mapDispatchToProps)(Home)

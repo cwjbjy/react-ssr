@@ -2,13 +2,17 @@ import { renderToString } from 'react-dom/server'//引入renderToString方法
 import { StaticRouter } from 'react-router-dom'
 import React from 'react'//引入React以支持JSX的语法
 import Router from '../routes'
-
-
+import { Provider } from 'react-redux'
+import getStore from '../store'
 export default function (req,res){
+    const store = getStore()
+    console.log('store',store.getState())
     const content = renderToString((
-        <StaticRouter context={{}} location={req.path}>
-          {Router}
-         </StaticRouter>
+        <Provider store={store}>
+           <StaticRouter location={req.path} context={{}}>
+               {Router}
+           </StaticRouter>
+        </Provider>
       ))
       res.send(`
     <html>
