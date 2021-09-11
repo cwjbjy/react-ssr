@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import {getStore} from "../store";
 
 export default function (req, res) {
+  let context = {css:[]}
   const store = getStore();
   /* 收集匹配路由 */
   const matchRoutes = [];
@@ -26,7 +27,7 @@ export default function (req, res) {
   Promise.all(promises).then(() => {
     const content = renderToString(
       <Provider store={store}>
-        <StaticRouter location={req.path} context={{}}>
+        <StaticRouter location={req.path} context={context}>
           <Switch>
             {routes.map((route) => (
               <Route {...route} />
@@ -35,10 +36,13 @@ export default function (req, res) {
         </StaticRouter>
       </Provider>
     );
+    //拼接代码
+    const cssStr = context.css.length ? context.css.join('\n') : '';
     res.send(`
     <html>
         <head>
         <title>ssr</title>
+        <style>${cssStr}</style>
         </head>
         <body>
             <div id="root">${content}</div>

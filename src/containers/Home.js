@@ -1,31 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import Header from "./Header";
 import { connect } from "react-redux";
 import * as count from "../store/action/count";
 import { getUsers } from "../store/action/user";
+import styles from './style.css';
 
-const Home = (props) => {
-  let { users } = props;
-  useEffect(() => {
-    if (!users.length) {
-      props.GETUSER();
+class Home extends React.Component{
+  componentWillMount() {
+    //判断是否为服务端渲染环境
+    if (this.props.staticContext) {
+      this.props.staticContext.css.push(styles._getCss())
     }
-  }, []);
-  return (
-    <div>
-      <Header />
-      <div>{props.count}</div>
-      <ul>
-        {users &&
-          users.map((item) => {
-            return <li key={item.id}>{item.name}</li>;
-          })}
-      </ul>
-      <button onClick={() => props.INCREMENT(1)}>+1</button>
-      <button onClick={() => props.DECREMENT(1)}>-1</button>
-    </div>
-  );
-};
+  }
+  
+  componentDidMount(){
+    if (!this.props.users.length) {
+      this.props.GETUSER();
+    }
+  }
+  render(){
+    let { count,users} = this.props
+    return (
+      <div>
+        <Header />
+        <div>{count}</div>
+        <ul>
+          {users &&
+            users.map((item) => {
+              return <li key={item.id}>{item.name}</li>;
+            })}
+        </ul>
+        <button onClick={() => this.props.INCREMENT(1)}>+1</button>
+        <button onClick={() => this.props.DECREMENT(1)}>-1</button>
+      </div>
+    );
+  }
+}
 
 const mapStateToProps = (state) => {
   return {
