@@ -6,9 +6,11 @@ import { getUsers } from "../store/action/user";
 
 const Home = (props) => {
   let { users } = props;
-  useEffect(()=>{
-    props.GETUSER()
-  },[])
+  useEffect(() => {
+    if (!users.length) {
+      props.GETUSER();
+    }
+  }, []);
   return (
     <div>
       <Header />
@@ -47,7 +49,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 Home.loadData = function (store) {
-  return store.dispatch(getUsers())
+  return store.dispatch(getUsers());
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

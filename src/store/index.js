@@ -1,9 +1,14 @@
-import { createStore,applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
-import rootReducer from './reducer'
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import rootReducer from "./reducer";
 
-const getStore = ()=>{
-    return createStore(rootReducer,{},applyMiddleware(thunk))
-}
+/* 服务端的store创建函数 */
+export const getStore = () => {
+  return createStore(rootReducer, {}, applyMiddleware(thunk));
+};
 
-export default getStore
+/* 客户端的store创建函数 */
+export const getClientStore = () => {
+  const defaultState = window.context ? window.context.state : {};
+  return createStore(rootReducer, defaultState, applyMiddleware(thunk));
+};

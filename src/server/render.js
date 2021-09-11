@@ -3,7 +3,7 @@ import { StaticRouter, Switch, Route, matchPath } from "react-router-dom";
 import React from "react"; //引入React以支持JSX的语法
 import routes from "../routes";
 import { Provider } from "react-redux";
-import getStore from "../store";
+import {getStore} from "../store";
 
 export default function (req, res) {
   const store = getStore();
@@ -42,6 +42,11 @@ export default function (req, res) {
         </head>
         <body>
             <div id="root">${content}</div>
+            <script>
+              window.context = {
+                state: ${JSON.stringify(store.getState())}
+              }
+            </script>
             <script src="/index.js"></script>
         </body>
     </html>
